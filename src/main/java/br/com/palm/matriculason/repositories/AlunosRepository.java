@@ -1,8 +1,6 @@
 package br.com.palm.matriculason.repositories;
 
 import br.com.palm.matriculason.entities.Aluno;
-import br.com.palm.matriculason.entities.Pessoa;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

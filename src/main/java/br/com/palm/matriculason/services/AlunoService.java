@@ -1,9 +1,7 @@
 package br.com.palm.matriculason.services;
 
 import br.com.palm.matriculason.dtos.AlunoDTO;
-import br.com.palm.matriculason.dtos.PermissoesDTO;
 import br.com.palm.matriculason.entities.Aluno;
-import br.com.palm.matriculason.entities.Permissoes;
 import br.com.palm.matriculason.exceptions.ResourceNotFoundException;
 import br.com.palm.matriculason.filters.AlunoFilter;
 import br.com.palm.matriculason.repositories.AlunosRepository;

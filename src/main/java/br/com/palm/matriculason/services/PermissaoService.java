@@ -32,7 +32,9 @@ public class PermissaoService {
     private MessageSource messageSource;
 
     public PermissoesDTO salvar(PermissoesDTO permissoesDTO) {
-        return modelMapper.map(permissaoRepository.save(modelMapper.map(permissoesDTO, Permissoes.class)), PermissoesDTO.class);
+        return modelMapper.map(
+                permissaoRepository.save(modelMapper.map(permissoesDTO, Permissoes.class))
+                , PermissoesDTO.class);
     }
 
     public void remover(Long id) {
@@ -46,6 +48,6 @@ public class PermissaoService {
     }
 
     public Page<PermissoesDTO> buscar(PermissoesFilter permissoesFilter, Pageable pageable){
-        return this.permissaoRepository.findByRoleAndDescricaoContainingOrderByRole(permissoesFilter.getRole(),permissoesFilter.getDescricao(), pageable).map(p -> modelMapper.map(p, PermissoesDTO.class));
+        return this.permissaoRepository.findByDescricaoContainingOrderByDescricao(permissoesFilter.getDescricao(), pageable).map(p -> modelMapper.map(p, PermissoesDTO.class));
     }
 }

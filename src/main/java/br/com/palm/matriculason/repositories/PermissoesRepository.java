@@ -16,8 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public interface PermissoesRepository extends JpaRepository<Permissoes, Long> {
 
     @Transactional(readOnly = true)
-    Page<Permissoes> findByRoleAndDescricaoContainingOrderByRole(String Role, String descricao, Pageable pageable);
+    Page<Permissoes> findByDescricaoContainingOrderByDescricao(String descricao, Pageable pageable);
 
     @Transactional(readOnly = true)
-    Permissoes findByRoleAndDescricaoContaining(String Role, String descricao);
+    Permissoes findByDescricaoContaining(String descricao);
 }

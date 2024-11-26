@@ -8,7 +8,7 @@ import lombok.Data;
 
 
 /**
- * Entity para Cursos
+ * Entity para permissoes
  *
  * @author Gisele Santos
  */
@@ -24,7 +24,7 @@ public class Permissoes implements Serializable {
     @NotBlank(message = "A role da permissão é obrigatória") @Column(length = 50, unique = true)
     private String role;
 
-    @NotBlank(message = "A descrição da permissão é obrigatória") @Column(length = 200, unique = true)
+    @NotBlank(message = "A descrição da permissão é obrigatória") @Column(length = 100, unique = true)
     private String descricao;
 
 }

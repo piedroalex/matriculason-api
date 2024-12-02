@@ -48,4 +48,8 @@ public class UsuariosService {
     public Page<UsuarioDTO> buscarPorStatus(Boolean status, Pageable pageable) {
         return this.usuariosRepository.findByStatus(status, pageable).map(u -> modelMapper.map(u, UsuarioDTO.class));
     }
+
+    public Page<UsuarioDTO> buscarPorNomePessoa(String nome, Pageable pageable) {
+        return this.usuariosRepository.findByPessoaNomeContainingIgnoreCase(nome, pageable).map(u -> modelMapper.map(u, UsuarioDTO.class));
+    }
 }

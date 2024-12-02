@@ -24,7 +24,7 @@ public class Usuarios implements Serializable {
     @Column(nullable = false)
     private Boolean status;
 
-    @NotBlank(message = "O campo pessoa é obrigatório")
-    @Column(length = 150)
-    private String pessoa;
+    @OneToOne
+    @JoinColumn(name = "id_pessoa", referencedColumnName = "id")
+    private Pessoa pessoa;
 }

@@ -18,4 +18,7 @@ public interface UsuariosRepository extends JpaRepository<Usuarios, Long> {
 
     @Transactional(readOnly = true)
     Page<Usuarios> findByStatus(Boolean status, Pageable pageable);
+
+    @Transactional(readOnly = true)
+    Page<Usuarios> findByPessoaNomeContainingIgnoreCase(String nome, Pageable pageable);
 }

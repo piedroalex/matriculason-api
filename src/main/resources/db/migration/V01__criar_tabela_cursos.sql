@@ -1,5 +1,5 @@
-CREATE TABLE IF NOT EXISTS `cursos` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+create table cursos (
+    id   bigint auto_increment primary key,
+    nome varchar(100) not null,
+    constraint UK6mhpxd1gh9j6mgr8kp7idoy6e unique (nome)
+);

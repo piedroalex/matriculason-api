@@ -1,9 +1,9 @@
 package br.com.palm.matriculason.services;
 
-import br.com.palm.matriculason.dtos.AlunoDTO;
-import br.com.palm.matriculason.entities.Aluno;
+import br.com.palm.matriculason.dtos.AlunosDTO;
+import br.com.palm.matriculason.entities.Alunos;
 import br.com.palm.matriculason.exceptions.ResourceNotFoundException;
-import br.com.palm.matriculason.filters.AlunoFilter;
+import br.com.palm.matriculason.filters.AlunosFilter;
 import br.com.palm.matriculason.repositories.AlunosRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Locale;
 
 @Service
-public class AlunoService {
+public class AlunosService {
 
     @Autowired
     private AlunosRepository alunosRepository;
@@ -26,25 +26,25 @@ public class AlunoService {
     @Autowired
     private MessageSource messageSource;
 
-    public AlunoDTO salvar(AlunoDTO alunoDTO) {
-        return modelMapper.map(alunosRepository.save(modelMapper.map(alunoDTO, Aluno.class)), AlunoDTO.class);
+    public AlunosDTO salvar(AlunosDTO alunoDTO) {
+        return modelMapper.map(alunosRepository.save(modelMapper.map(alunoDTO, Alunos.class)), AlunosDTO.class);
     }
 
     public void remover(Long id){
         this.alunosRepository.deleteById(id);
     }
 
-    public AlunoDTO buscarPorIdOrFail(Long id){
-        return this.alunosRepository.findById(id).map(aluno -> modelMapper.map(aluno, AlunoDTO.class))
+    public AlunosDTO buscarPorIdOrFail(Long id){
+        return this.alunosRepository.findById(id).map(aluno -> modelMapper.map(aluno, AlunosDTO.class))
                 .orElseThrow(() -> new ResourceNotFoundException(messageSource
                         .getMessage("modelo.naoEncontrado", new String[] {"Alunos", id.toString()}, Locale.getDefault())));
     }
 
-    public Page<AlunoDTO> buscarPorNome(AlunoFilter filter, Pageable pageable) {
-        return this.alunosRepository.findByNomeContainingOrderByNome(filter.getNome(), pageable).map(aluno -> modelMapper.map(aluno, AlunoDTO.class));
+    public Page<AlunosDTO> buscarPorNome(AlunosFilter filter, Pageable pageable) {
+        return this.alunosRepository.findByNomeContainingOrderByNome(filter.getNome(), pageable).map(aluno -> modelMapper.map(aluno, AlunosDTO.class));
     }
 
-    public Page<AlunoDTO> buscarPorCpf(AlunoFilter filter, Pageable pageable) {
-        return this.alunosRepository.findByCpfContainingOrderByCpf(filter.getCpf(), pageable).map(aluno -> modelMapper.map(aluno, AlunoDTO.class));
+    public Page<AlunosDTO> buscarPorCpf(AlunosFilter filter, Pageable pageable) {
+        return this.alunosRepository.findByCpfContainingOrderByCpf(filter.getCpf(), pageable).map(aluno -> modelMapper.map(aluno, AlunosDTO.class));
     }
 }

@@ -20,7 +20,7 @@ import java.util.Locale;
  * @author Gisele Santos
  */
 @Service
-public class PermissaoService {
+public class PermissoesService {
 
     @Autowired
     private PermissoesRepository permissaoRepository;

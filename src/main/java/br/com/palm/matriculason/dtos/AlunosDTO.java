@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class AlunoDTO implements Serializable {
+public class AlunosDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

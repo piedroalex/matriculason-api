@@ -40,11 +40,7 @@ public class AlunosService {
                         .getMessage("modelo.naoEncontrado", new String[] {"Alunos", id.toString()}, Locale.getDefault())));
     }
 
-    public Page<AlunosDTO> buscarPorNome(AlunosFilter filter, Pageable pageable) {
+    public Page<AlunosDTO> buscar(AlunosFilter filter, Pageable pageable) {
         return this.alunosRepository.findByNomeContainingOrderByNome(filter.getNome(), pageable).map(aluno -> modelMapper.map(aluno, AlunosDTO.class));
-    }
-
-    public Page<AlunosDTO> buscarPorCpf(AlunosFilter filter, Pageable pageable) {
-        return this.alunosRepository.findByCpfContainingOrderByCpf(filter.getCpf(), pageable).map(aluno -> modelMapper.map(aluno, AlunosDTO.class));
     }
 }

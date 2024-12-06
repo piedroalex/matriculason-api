@@ -2,6 +2,8 @@ package br.com.palm.matriculason.entities;
 
 import java.io.Serializable;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +29,7 @@ public abstract class Pessoas implements Serializable {
     @NotBlank(message = "O nome é obrigatório") @Column(length = 100)
     private String nome;
 
-    @NotBlank(message = "O cpf é obrigatório") @Column(length = 100, unique = true)
+    @CPF(message = "O cpf é obrigatório") @Column(length = 100, unique = true)
     private String cpf;
 
     @NotBlank(message = "O email é obrigatório") @Column(length = 100, unique = true)

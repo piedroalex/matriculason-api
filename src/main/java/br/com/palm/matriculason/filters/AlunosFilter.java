@@ -4,7 +4,7 @@ import br.com.palm.matriculason.entities.Cursos;
 import lombok.Data;
 
 @Data
-public class AlunoFilter {
+public class AlunosFilter {
 
     private String nome = "";
     private String matricula = "";

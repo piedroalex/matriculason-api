@@ -1,5 +1,6 @@
 package br.com.palm.matriculason.dtos;
 
+import br.com.palm.matriculason.entities.Pessoas;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -7,14 +8,13 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class UsuarioDTO implements Serializable {
+public class UsuariosDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
-    @NotBlank(message = "O campo pessoa é obrigatório")
-    private String pessoa;
+    private Pessoas pessoa;
 
     @NotBlank(message = "O nome de usuário é obrigatório")
     private String username;

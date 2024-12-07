@@ -1,6 +1,7 @@
-CREATE TABLE IF NOT EXISTS `permissoes` (
-    `id` bigint NOT NULL AUTO_INCREMENT,
-    `role` varchar(50) NOT NULL,
-    `descricao` varchar(200) NOT NULL,
-    PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+create table permissoes (
+    id        bigint auto_increment primary key,
+    descricao varchar(100) not null,
+    role      varchar(50)  not null,
+    constraint UK38hnxjpwmg8h2hmm9ppwcgu3f unique (role),
+    constraint UKkp0r3oerafjatth8tegfvedge unique (descricao)
+);

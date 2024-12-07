@@ -1,30 +1,33 @@
 package br.com.palm.matriculason.entities;
 
-import jakarta.persistence.*;
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import java.io.Serializable;
-
-@Data
-@Entity
+@Data @Entity
 public class Usuarios implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private static final long serialVersionUID = 1L;
+	
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "O nome de usuário é obrigatório")
-    @Column(length = 50, unique = true)
+	
+    @NotBlank(message = "O username é obrigatório") @Column(length = 50, unique = true)
     private String username;
 
-    @NotBlank(message = "A senha é obrigatória")
-    @Column(length = 100)
+    @NotBlank(message = "A senha é obrigatória") @Column(length = 100)
     private String senha;
 
     @Column(nullable = false)
-    private Boolean status;
+    private Boolean status = true;
 
-    @NotBlank(message = "O campo pessoa é obrigatório")
-    @Column(length = 150)
-    private String pessoa;
+    @OneToOne
+    private Pessoas pessoa;
 }

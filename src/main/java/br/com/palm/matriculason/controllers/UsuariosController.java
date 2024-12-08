@@ -81,6 +81,4 @@ public class UsuariosController {
         );
         return ResponseEntity.ok(usuarios);
     }
-
-
 }

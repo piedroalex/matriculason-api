@@ -51,4 +51,30 @@ public class UsuariosController {
                 PageRequest.of((pagina.orElse(0) < 1) ? 0 : pagina.get(), 10));
         return ResponseEntity.ok(usuarios);
     }
+
+    @GetMapping("/status")
+    public ResponseEntity<Page<UsuariosDTO>> buscarPorStatus(
+            @ModelAttribute("filtro") UsuariosFilter filtro, 
+            @RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {
+
+        Boolean status = filtro.getStatus();
+        Page<UsuariosDTO> usuarios = usuariosService.buscarPorStatus(
+                status,
+                PageRequest.of((pagina.orElse(0) < 1) ? 0 : pagina.get(), 10)
+        );
+        return ResponseEntity.ok(usuarios);
+    }
+
+    @GetMapping("/nome-pessoa")
+    public ResponseEntity<Page<UsuariosDTO>> buscarPorNomePessoa(
+            @ModelAttribute("filtro") UsuariosFilter filtro,
+            @RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {
+
+        String nome = filtro.getNome();
+        Page<UsuariosDTO> usuarios = usuariosService.buscarPorNomePessoa(
+                nome,
+                PageRequest.of((pagina.orElse(0) < 1) ? 0 : pagina.get(), 10)
+        );
+        return ResponseEntity.ok(usuarios);
+    }
 }

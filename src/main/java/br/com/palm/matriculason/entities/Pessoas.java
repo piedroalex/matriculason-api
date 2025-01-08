@@ -2,6 +2,8 @@ package br.com.palm.matriculason.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.hibernate.validator.constraints.br.CPF;
 
 import jakarta.persistence.Column;
@@ -17,6 +19,16 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "tipo"
+)
+
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Alunos.class, name = "aluno"),
+        @JsonSubTypes.Type(value = Administradores.class, name = "administrador")
+})
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EqualsAndHashCode(of = { "id" })
 public abstract class Pessoas implements Serializable {

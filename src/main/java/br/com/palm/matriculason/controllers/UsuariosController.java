@@ -21,18 +21,8 @@ public class UsuariosController {
 
     @GetMapping
     public ResponseEntity<Page<UsuariosDTO>> pesquisar(
-            @RequestParam(value = "username", required = false) String username,
-            @RequestParam(value = "nome", required = false) String nome,
-            @RequestParam(value = "status", required = false) String status,
+            UsuariosFilter filtro,
             @RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {
-
-        UsuariosFilter filtro = new UsuariosFilter();
-        filtro.setUsername(username);
-        filtro.setNome(nome);
-
-        if (status != null) {
-            filtro.setStatus(status.equalsIgnoreCase("ATIVO"));
-        }
 
         Page<UsuariosDTO> usuarios = usuariosService.buscar(
                 filtro,

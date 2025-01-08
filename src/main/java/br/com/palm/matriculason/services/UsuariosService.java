@@ -5,6 +5,7 @@ import br.com.palm.matriculason.entities.Usuarios;
 import br.com.palm.matriculason.exceptions.ResourceNotFoundException;
 import br.com.palm.matriculason.filters.UsuariosFilter;
 import br.com.palm.matriculason.repositories.UsuariosRepository;
+import br.com.palm.matriculason.services.specifications.UsuariosSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -26,8 +27,30 @@ public class UsuariosService {
     @Autowired
     private UsuariosRepository usuariosRepository;
 
-    public UsuariosDTO salvar(UsuariosDTO usuarioDto) {
+    public UsuariosDTO salvarAtualizacao(UsuariosDTO usuarioDto) {
         return modelMapper.map(usuariosRepository.save(modelMapper.map(usuarioDto, Usuarios.class)), UsuariosDTO.class);
+    }
+
+    public UsuariosDTO cadastrarAluno(UsuariosDTO usuarioDto) {
+        validarSenhasIguais(usuarioDto);
+        Usuarios usuario = modelMapper.map(usuarioDto, Usuarios.class);
+        usuario.setUsername(usuarioDto.getPessoa().getCpf());
+        usuario.setStatus(true);
+        return modelMapper.map(usuariosRepository.save(usuario), UsuariosDTO.class);
+    }
+
+    public UsuariosDTO cadastrarAdministrador(UsuariosDTO usuarioDto) {
+        validarSenhasIguais(usuarioDto);
+        Usuarios usuario = modelMapper.map(usuarioDto, Usuarios.class);
+        usuario.setUsername(usuarioDto.getPessoa().getCpf());
+        usuario.setStatus(true);
+        return modelMapper.map(usuariosRepository.save(usuario), UsuariosDTO.class);
+    }
+
+    private void validarSenhasIguais(UsuariosDTO usuarioDto) {
+        if (!usuarioDto.getSenha().equals(usuarioDto.getConfirmarSenha())) {
+            throw new IllegalArgumentException("As senhas não coincidem.");
+        }
     }
 
     public void remover(Long id) {
@@ -35,21 +58,19 @@ public class UsuariosService {
     }
 
     public UsuariosDTO buscarPeloIdOrFail(Long id) {
-        return this.usuariosRepository.findById(id).map(u -> modelMapper.map(u, UsuariosDTO.class))
-                .orElseThrow(() -> new ResourceNotFoundException(messageSource
-                        .getMessage("modelo.naoEncontrado", new String[] { "Usuários", id.toString() }, Locale.getDefault())));
+        return this.usuariosRepository.findById(id)
+                .map(u -> modelMapper.map(u, UsuariosDTO.class))
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        messageSource.getMessage(
+                                "modelo.naoEncontrado",
+                                new String[]{"Usuários", id.toString()},
+                                Locale.getDefault()
+                        )
+                ));
     }
 
     public Page<UsuariosDTO> buscar(UsuariosFilter usuariosFilter, Pageable pageable) {
-        return this.usuariosRepository.findByUsernameContainingOrderByUsername(usuariosFilter.getUsername(), pageable)
+        return usuariosRepository.findAll(UsuariosSpecification.filtrar(usuariosFilter), pageable)
                 .map(u -> modelMapper.map(u, UsuariosDTO.class));
-    }
-
-    public Page<UsuariosDTO> buscarPorStatus(Boolean status, Pageable pageable) {
-        return this.usuariosRepository.findByStatus(status, pageable).map(u -> modelMapper.map(u, UsuariosDTO.class));
-    }
-
-    public Page<UsuariosDTO> buscarPorNomePessoa(String nome, Pageable pageable) {
-        return this.usuariosRepository.findByPessoaNomeContainingIgnoreCase(nome, pageable).map(u -> modelMapper.map(u, UsuariosDTO.class));
     }
 }

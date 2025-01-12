@@ -34,6 +34,7 @@ public class UsuariosController {
 
     @PostMapping("/alunos/novo-aluno")
     public ResponseEntity<UsuariosDTO> cadastrarAluno(@Valid @RequestBody UsuariosDTO usuariosDTO) {
+        System.out.println(usuariosDTO.toString());
         UsuariosDTO usuarioSalvo = usuariosService.cadastrarAluno(usuariosDTO);
         return ResponseEntity.ok(usuarioSalvo);
     }

@@ -1,6 +1,7 @@
 package br.com.palm.matriculason.services;
 
 import br.com.palm.matriculason.dtos.UsuariosDTO;
+import br.com.palm.matriculason.entities.Alunos;
 import br.com.palm.matriculason.entities.Usuarios;
 import br.com.palm.matriculason.exceptions.ResourceNotFoundException;
 import br.com.palm.matriculason.filters.UsuariosFilter;
@@ -28,7 +29,15 @@ public class UsuariosService {
     private UsuariosRepository usuariosRepository;
 
     public UsuariosDTO salvarAtualizacao(UsuariosDTO usuarioDto) {
-        return modelMapper.map(usuariosRepository.save(modelMapper.map(usuarioDto, Usuarios.class)), UsuariosDTO.class);
+        Usuarios usuarios = modelMapper.map(usuarioDto, Usuarios.class);
+
+        if (usuarios.getUsername() == null || usuarios.getUsername().isBlank()) {
+            usuarios.setUsername(usuarioDto.getPessoa().getCpf());
+        }
+
+        usuarios.setSenha(usuarioDto.getSenha());
+
+        return modelMapper.map(usuariosRepository.save(modelMapper.map(usuarios, Usuarios.class)), UsuariosDTO.class);
     }
 
     public UsuariosDTO cadastrarAluno(UsuariosDTO usuarioDto) {
@@ -39,6 +48,7 @@ public class UsuariosService {
         return modelMapper.map(usuariosRepository.save(usuario), UsuariosDTO.class);
     }
 
+
     public UsuariosDTO cadastrarAdministrador(UsuariosDTO usuarioDto) {
         validarSenhasIguais(usuarioDto);
         Usuarios usuario = modelMapper.map(usuarioDto, Usuarios.class);
@@ -47,11 +57,12 @@ public class UsuariosService {
         return modelMapper.map(usuariosRepository.save(usuario), UsuariosDTO.class);
     }
 
-    private void validarSenhasIguais(UsuariosDTO usuarioDto) {
-        if (!usuarioDto.getSenha().equals(usuarioDto.getConfirmarSenha())) {
+    public void validarSenhasIguais(UsuariosDTO usuarioDto) {
+        if (usuarioDto.getConfirmarSenha() != null && !usuarioDto.getConfirmarSenha().equals(usuarioDto.getSenha())) {
             throw new IllegalArgumentException("As senhas não coincidem.");
         }
     }
+
 
     public void remover(Long id) {
         this.usuariosRepository.deleteById(id);

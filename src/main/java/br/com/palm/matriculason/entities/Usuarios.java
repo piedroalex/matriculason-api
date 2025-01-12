@@ -21,13 +21,11 @@ public class Usuarios implements Serializable {
     @NotBlank(message = "A senha é obrigatória") @Column(length = 100)
     private String senha;
 
-    @Transient
-    private String confirmarSenha;
-
     @Column(nullable = false)
     private Boolean status = true;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "pessoa_id")
     private Pessoas pessoa;
 
 

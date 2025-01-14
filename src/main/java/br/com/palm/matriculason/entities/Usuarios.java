@@ -2,6 +2,7 @@ package br.com.palm.matriculason.entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -24,7 +25,7 @@ public class Usuarios implements Serializable {
     @Column(nullable = false)
     private Boolean status = true;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
     @JoinColumn(name = "pessoa_id")
     private Pessoas pessoa;
 

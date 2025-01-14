@@ -21,6 +21,6 @@ public class Alunos extends Pessoas implements Serializable {
     private String matricula;
 
     @NotNull(message = "O curso é obrigatório")
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne
     private Cursos curso;
 }

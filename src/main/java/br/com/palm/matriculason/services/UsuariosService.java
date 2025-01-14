@@ -1,12 +1,15 @@
 package br.com.palm.matriculason.services;
 
 import br.com.palm.matriculason.dtos.UsuariosDTO;
+import br.com.palm.matriculason.entities.Administradores;
 import br.com.palm.matriculason.entities.Alunos;
+import br.com.palm.matriculason.entities.Pessoas;
 import br.com.palm.matriculason.entities.Usuarios;
 import br.com.palm.matriculason.exceptions.ResourceNotFoundException;
 import br.com.palm.matriculason.filters.UsuariosFilter;
 import br.com.palm.matriculason.repositories.UsuariosRepository;
 import br.com.palm.matriculason.services.specifications.UsuariosSpecification;
+import org.apache.coyote.Adapter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -15,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class UsuariosService {
@@ -28,17 +32,71 @@ public class UsuariosService {
     @Autowired
     private UsuariosRepository usuariosRepository;
 
-    public UsuariosDTO salvarAtualizacao(UsuariosDTO usuarioDto) {
-        Usuarios usuarios = modelMapper.map(usuarioDto, Usuarios.class);
-
-        if (usuarios.getUsername() == null || usuarios.getUsername().isBlank()) {
-            usuarios.setUsername(usuarioDto.getPessoa().getCpf());
+    public UsuariosDTO salvarAtualizacao(UsuariosDTO usuariosDTO) {
+        Optional<Usuarios> usuarioExistenteOpt = usuariosRepository.findById(usuariosDTO.getId());
+        if (usuarioExistenteOpt.isEmpty()) {
+            throw new RuntimeException("Usuário não encontrado");
         }
 
-        usuarios.setSenha(usuarioDto.getSenha());
+        Usuarios usuarioExistente = usuarioExistenteOpt.get();
 
-        return modelMapper.map(usuariosRepository.save(modelMapper.map(usuarios, Usuarios.class)), UsuariosDTO.class);
+        if (usuariosDTO.getPessoa() instanceof Alunos) {
+            Alunos alunos = (Alunos) usuariosDTO.getPessoa();
+
+            Alunos alunoExistente = (Alunos) usuarioExistente.getPessoa();
+            if (!alunoExistente.getCpf().equals(alunos.getCpf())) {
+                throw new RuntimeException("CPF do aluno não pode ser alterado");
+            }
+
+            if (alunos.getMatricula() != null && !alunos.getMatricula().equals(alunoExistente.getMatricula())) {
+                alunoExistente.setMatricula(alunos.getMatricula());
+            }
+
+            if (alunos.getNome() != null) {
+                alunoExistente.setNome(alunos.getNome());
+            }
+            if (alunos.getEmail() != null) {
+                alunoExistente.setEmail(alunos.getEmail());
+            }
+
+            usuarioExistente.setPessoa(alunoExistente);
+        } else if (usuariosDTO.getPessoa() instanceof Administradores) {
+            Administradores administradores = (Administradores) usuariosDTO.getPessoa();
+
+            Administradores administradoresExistente = (Administradores) usuarioExistente.getPessoa();
+            if(!administradoresExistente.getCpf().equals(administradores.getCpf())) {
+                throw new RuntimeException("CPF do administrador não pode ser alterado");
+            }
+
+            if (administradores.getNome() != null) {
+                administradoresExistente.setNome(administradores.getNome());
+            }
+
+            if (administradores.getEmail() != null) {
+                administradoresExistente.setEmail(administradores.getEmail());
+            }
+
+            if (administradores.getCargo() != null) {
+                administradoresExistente.setCargo(administradores.getCargo());
+            }
+
+            if (administradores.getDepartamento() != null) {
+                administradoresExistente.setDepartamento(administradores.getDepartamento());
+            }
+            usuarioExistente.setPessoa(administradoresExistente);
+        }
+
+        if (usuariosDTO.getSenha() != null) {
+            usuarioExistente.setSenha(usuariosDTO.getSenha());
+        }
+
+        usuarioExistente = usuariosRepository.save(usuarioExistente);
+
+        return modelMapper.map(usuarioExistente, UsuariosDTO.class);
     }
+
+
+
 
     public UsuariosDTO cadastrarAluno(UsuariosDTO usuarioDto) {
         validarSenhasIguais(usuarioDto);

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>br.com.palm</groupId>
 	<artifactId>matriculason</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>matriculason</name>
 	<description>Backend do projeto da disciplina de sistemas distribuídos</description>	
 	<properties>
@@ -104,6 +104,12 @@
 			</activation>
 			<properties>
 				<activatedProperties>dev</activatedProperties>
+			</properties>
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<activatedProperties>test</activatedProperties>
 			</properties>
 		</profile>
 		<profile>

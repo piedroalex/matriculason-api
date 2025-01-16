@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  matriculason-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+      - "8080:8080"
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=${PROFILE}
+
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=test

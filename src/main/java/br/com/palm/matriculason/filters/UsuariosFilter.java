@@ -4,9 +4,7 @@ import lombok.Data;
 @Data
 public class UsuariosFilter {
 
-    private String nome = "";
-    private String username = ""; 
-    private String email = "";
-    private Boolean status = null;
-
+    private String nome;
+    private String username;
+    private Boolean status;
 }

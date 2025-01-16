@@ -2,7 +2,7 @@ package br.com.palm.matriculason.dtos;
 
 import br.com.palm.matriculason.entities.Pessoas;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -16,10 +16,11 @@ public class UsuariosDTO implements Serializable {
 
     private Pessoas pessoa;
 
-    @NotBlank(message = "O nome de usuário é obrigatório")
-    private String username;
+    @NotBlank(message = "A senha é obrigatória")
+    @Size(min = 8, max = 12, message = "A senha deve ter entre 8 e 12 caracteres")
+    private String senha;
 
-    @NotNull(message = "O status é obrigatório")
-    private Boolean status;
-
+    @NotBlank(message = "A senha é obrigatória")
+    @Size(min = 8, max = 12, message = "A senha deve ter entre 8 e 12 caracteres")
+    private String confirmarSenha;
 }

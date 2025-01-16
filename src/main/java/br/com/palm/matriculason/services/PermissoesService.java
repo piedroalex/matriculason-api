@@ -33,8 +33,7 @@ public class PermissoesService {
 
     public PermissoesDTO salvar(PermissoesDTO permissoesDTO) {
         return modelMapper.map(
-                permissaoRepository.save(modelMapper.map(permissoesDTO, Permissoes.class))
-                , PermissoesDTO.class);
+                permissaoRepository.save(modelMapper.map(permissoesDTO, Permissoes.class)), PermissoesDTO.class);
     }
 
     public void remover(Long id) {

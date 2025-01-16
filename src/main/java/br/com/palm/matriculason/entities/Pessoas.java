@@ -24,7 +24,6 @@ import lombok.EqualsAndHashCode;
         include = JsonTypeInfo.As.PROPERTY,
         property = "tipo"
 )
-
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Alunos.class, name = "aluno"),
         @JsonSubTypes.Type(value = Administradores.class, name = "administrador")

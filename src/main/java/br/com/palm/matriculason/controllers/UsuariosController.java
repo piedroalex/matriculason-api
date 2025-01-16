@@ -20,21 +20,14 @@ public class UsuariosController {
     private UsuariosService usuariosService;
 
     @GetMapping
-    public ResponseEntity<Page<UsuariosDTO>> pesquisar(
-            UsuariosFilter filtro,
+    public ResponseEntity<Page<UsuariosDTO>> pesquisar(UsuariosFilter filtro,
             @RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {
-
-        Page<UsuariosDTO> usuarios = usuariosService.buscar(
-                filtro,
-                PageRequest.of(pagina.orElse(0) < 1 ? 0 : pagina.get(), 10)
-        );
-
+        Page<UsuariosDTO> usuarios = usuariosService.buscar(filtro, PageRequest.of(pagina.orElse(0) < 1 ? 0 : pagina.get(), 10));
         return ResponseEntity.ok(usuarios);
     }
 
     @PostMapping("/alunos/novo-aluno")
     public ResponseEntity<UsuariosDTO> cadastrarAluno(@Valid @RequestBody UsuariosDTO usuariosDTO) {
-        System.out.println(usuariosDTO.toString());
         UsuariosDTO usuarioSalvo = usuariosService.cadastrarAluno(usuariosDTO);
         return ResponseEntity.ok(usuarioSalvo);
     }
@@ -51,7 +44,6 @@ public class UsuariosController {
         UsuariosDTO usuariosSalvo = usuariosService.salvarAtualizacao(usuariosDTO);
         return ResponseEntity.ok(usuariosSalvo);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable("id") Long id) {

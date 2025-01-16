@@ -18,8 +18,5 @@ public interface CursosRepository extends JpaRepository<Cursos, Long> {
 	
 	@Transactional(readOnly = true)
     Page<Cursos> findByNomeContainingOrderByNome(String nome, Pageable pageable);
-    		
-	@Transactional(readOnly = true)
-	Cursos findByNomeContaining(String nome);
-	
+    
 }

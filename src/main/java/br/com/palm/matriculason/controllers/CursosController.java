@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,28 +34,33 @@ public class CursosController {
 	@Autowired
 	private CursosService cursoService;
 	
+	@CrossOrigin
 	@PostMapping
 	public ResponseEntity<CursosDTO> cadastrar(@Valid @RequestBody CursosDTO cursoDTO) {
 		return ResponseEntity.ok(this.cursoService.salvar(cursoDTO));
 	}
-	
+
+	@CrossOrigin
 	@PutMapping("/{id}")
 	public ResponseEntity<CursosDTO> atualizar(@PathVariable("id") Long id, @Valid @RequestBody CursosDTO cursoDTO) throws Exception {						
 		cursoDTO.setId(id);
 		return ResponseEntity.ok(this.cursoService.salvar(cursoDTO));
 	}
 
+	@CrossOrigin
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> remover(@PathVariable("id") Long id) {
 		this.cursoService.remover(id);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@CrossOrigin
 	@GetMapping("/{id}")
 	public ResponseEntity<CursosDTO> buscarPorId(@PathVariable("id") Long id) {
 		return ResponseEntity.ok(this.cursoService.buscarPeloIdOrFail(id));
 	}
 
+	@CrossOrigin
 	@GetMapping
 	public ResponseEntity<Page<CursosDTO>> pesquisar(@ModelAttribute("filtro") CursosFilter filtro,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {

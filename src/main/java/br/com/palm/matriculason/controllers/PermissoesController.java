@@ -18,28 +18,33 @@ public class PermissoesController {
 	@Autowired
 	private PermissoesService permissaoService;
 
+	@CrossOrigin
 	@PostMapping
 	public ResponseEntity<PermissoesDTO> cadastrar(@Valid @RequestBody PermissoesDTO permissoesDTO) {
 		return ResponseEntity.ok(this.permissaoService.salvar(permissoesDTO));
 	}
 
+	@CrossOrigin
 	@PutMapping("/{id}")
 	public ResponseEntity<PermissoesDTO> atualizar(@PathVariable("id") Long id, @Valid @RequestBody PermissoesDTO permissoesDTO) {
 		permissoesDTO.setId(id);
 		return ResponseEntity.ok(this.permissaoService.salvar(permissoesDTO));
 	}
 
+	@CrossOrigin
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> remover(@PathVariable("id") Long id) {
 		this.permissaoService.remover(id);
 		return ResponseEntity.noContent().build();
 	}
 
+	@CrossOrigin
 	@GetMapping("/{id}")
 	public ResponseEntity<PermissoesDTO> buscarPorId(@PathVariable("id") Long id) {
 		return ResponseEntity.ok(this.permissaoService.buscarPeloIdOrFail(id));
 	}
 
+	@CrossOrigin
 	@GetMapping
 	public ResponseEntity<Page<PermissoesDTO>> pesquisar(@ModelAttribute("filtro") PermissoesFilter filtro,
 			@RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {

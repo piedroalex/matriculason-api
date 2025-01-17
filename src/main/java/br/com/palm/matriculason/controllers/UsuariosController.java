@@ -19,6 +19,7 @@ public class UsuariosController {
     @Autowired
     private UsuariosService usuariosService;
 
+    @CrossOrigin
     @GetMapping
     public ResponseEntity<Page<UsuariosDTO>> pesquisar(UsuariosFilter filtro,
             @RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {
@@ -26,18 +27,21 @@ public class UsuariosController {
         return ResponseEntity.ok(usuarios);
     }
 
+    @CrossOrigin
     @PostMapping("/alunos/novo-aluno")
     public ResponseEntity<UsuariosDTO> cadastrarAluno(@Valid @RequestBody UsuariosDTO usuariosDTO) {
         UsuariosDTO usuarioSalvo = usuariosService.cadastrarAluno(usuariosDTO);
         return ResponseEntity.ok(usuarioSalvo);
     }
 
+    @CrossOrigin
     @PostMapping("/administradores/novo-administrador")
     public ResponseEntity<UsuariosDTO> cadastrarAdministrador(@Valid @RequestBody UsuariosDTO usuariosDTO) {
         UsuariosDTO usuarioSalvo = usuariosService.cadastrarAdministrador(usuariosDTO);
         return ResponseEntity.ok(usuarioSalvo);
     }
-
+    
+    @CrossOrigin
     @PutMapping("/{id}")
     public ResponseEntity<UsuariosDTO> atualizar(@PathVariable("id") Long id, @Valid @RequestBody UsuariosDTO usuariosDTO) {
         usuariosDTO.setId(id);
@@ -45,12 +49,14 @@ public class UsuariosController {
         return ResponseEntity.ok(usuariosSalvo);
     }
 
+    @CrossOrigin
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> remover(@PathVariable("id") Long id) {
         usuariosService.remover(id);
         return ResponseEntity.noContent().build();
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<UsuariosDTO> buscarPorId(@PathVariable("id") Long id) {
         UsuariosDTO usuario = usuariosService.buscarPeloIdOrFail(id);

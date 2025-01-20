@@ -25,8 +25,8 @@ import lombok.EqualsAndHashCode;
         property = "tipo"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = Alunos.class, name = "aluno"),
-        @JsonSubTypes.Type(value = Administradores.class, name = "administrador")
+        @JsonSubTypes.Type(value = Alunos.class, name = "ALUNO"),
+        @JsonSubTypes.Type(value = Administradores.class, name = "ADMIN")
 })
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EqualsAndHashCode(of = { "id" })

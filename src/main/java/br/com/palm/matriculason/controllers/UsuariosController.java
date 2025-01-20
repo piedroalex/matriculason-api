@@ -1,6 +1,7 @@
 package br.com.palm.matriculason.controllers;
 
-import br.com.palm.matriculason.dtos.UsuariosDTO;
+import br.com.palm.matriculason.dtos.UsuarioResponseDTO;
+import br.com.palm.matriculason.dtos.UsuariosRequestDTO;
 import br.com.palm.matriculason.filters.UsuariosFilter;
 import br.com.palm.matriculason.services.UsuariosService;
 import jakarta.validation.Valid;
@@ -21,31 +22,33 @@ public class UsuariosController {
 
     @CrossOrigin
     @GetMapping
-    public ResponseEntity<Page<UsuariosDTO>> pesquisar(UsuariosFilter filtro,
-            @RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {
-        Page<UsuariosDTO> usuarios = usuariosService.buscar(filtro, PageRequest.of(pagina.orElse(0) < 1 ? 0 : pagina.get(), 10));
+    public ResponseEntity<Page<UsuariosRequestDTO>> pesquisar(UsuariosFilter filtro,
+                                                              @RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {
+        Page<UsuariosRequestDTO> usuarios = usuariosService.buscar(filtro, PageRequest.of(pagina.orElse(0) < 1 ? 0 : pagina.get(), 10));
         return ResponseEntity.ok(usuarios);
     }
 
     @CrossOrigin
     @PostMapping("/alunos/novo-aluno")
-    public ResponseEntity<UsuariosDTO> cadastrarAluno(@Valid @RequestBody UsuariosDTO usuariosDTO) {
-        UsuariosDTO usuarioSalvo = usuariosService.cadastrarAluno(usuariosDTO);
-        return ResponseEntity.ok(usuarioSalvo);
+    public ResponseEntity<UsuarioResponseDTO> cadastrarAluno(@Valid @RequestBody UsuariosRequestDTO usuariosDTO) {
+        UsuariosRequestDTO usuarioSalvo = usuariosService.cadastrarAluno(usuariosDTO);
+        UsuarioResponseDTO usuarioResponseDTO = usuariosService.responseUserDTO(usuarioSalvo);
+        return ResponseEntity.ok(usuarioResponseDTO);
     }
 
     @CrossOrigin
     @PostMapping("/administradores/novo-administrador")
-    public ResponseEntity<UsuariosDTO> cadastrarAdministrador(@Valid @RequestBody UsuariosDTO usuariosDTO) {
-        UsuariosDTO usuarioSalvo = usuariosService.cadastrarAdministrador(usuariosDTO);
-        return ResponseEntity.ok(usuarioSalvo);
+    public ResponseEntity<UsuarioResponseDTO> cadastrarAdministrador(@Valid @RequestBody UsuariosRequestDTO usuariosDTO) {
+        UsuariosRequestDTO usuarioSalvo = usuariosService.cadastrarAdministrador(usuariosDTO);
+        UsuarioResponseDTO usuarioResponseDTO = usuariosService.responseUserDTO(usuarioSalvo);
+        return ResponseEntity.ok(usuarioResponseDTO);
     }
     
     @CrossOrigin
     @PutMapping("/{id}")
-    public ResponseEntity<UsuariosDTO> atualizar(@PathVariable("id") Long id, @Valid @RequestBody UsuariosDTO usuariosDTO) {
+    public ResponseEntity<UsuariosRequestDTO> atualizar(@PathVariable("id") Long id, @Valid @RequestBody UsuariosRequestDTO usuariosDTO) {
         usuariosDTO.setId(id);
-        UsuariosDTO usuariosSalvo = usuariosService.salvarAtualizacao(usuariosDTO);
+        UsuariosRequestDTO usuariosSalvo = usuariosService.salvarAtualizacao(usuariosDTO);
         return ResponseEntity.ok(usuariosSalvo);
     }
 
@@ -58,8 +61,8 @@ public class UsuariosController {
 
     @CrossOrigin
     @GetMapping("/{id}")
-    public ResponseEntity<UsuariosDTO> buscarPorId(@PathVariable("id") Long id) {
-        UsuariosDTO usuario = usuariosService.buscarPeloIdOrFail(id);
+    public ResponseEntity<UsuariosRequestDTO> buscarPorId(@PathVariable("id") Long id) {
+        UsuariosRequestDTO usuario = usuariosService.buscarPeloIdOrFail(id);
         return ResponseEntity.ok(usuario);
     }
 }

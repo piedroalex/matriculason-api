@@ -18,5 +18,6 @@ public interface CursosRepository extends JpaRepository<Cursos, Long> {
 	
 	@Transactional(readOnly = true)
     Page<Cursos> findByNomeContainingOrderByNome(String nome, Pageable pageable);
-    
+
+    Cursos findAllById(Long id);
 }

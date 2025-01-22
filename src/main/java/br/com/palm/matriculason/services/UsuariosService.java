@@ -38,11 +38,16 @@ public class UsuariosService {
     private CursosRepository cursosRepository;
 
     public UsuariosRequestDTO salvarAtualizacao(UsuariosRequestDTO usuariosDTO) {
+        String CPF = usuariosDTO.getPessoa().getCpf().replaceAll("[^0-9]", "");
+        usuariosDTO.getPessoa().setCpf(CPF);
+
         Optional<Usuarios> usuarioExistenteOpt = usuariosRepository.findById(usuariosDTO.getId());
         if (usuarioExistenteOpt.isEmpty()) {
             throw new RuntimeException("Usuário não encontrado");
         }
+
         Usuarios usuarioExistente = usuarioExistenteOpt.get();
+
         if (usuariosDTO.getPessoa() instanceof Alunos) {
             Alunos alunos = (Alunos) usuariosDTO.getPessoa();
             Alunos alunoExistente = (Alunos) usuarioExistente.getPessoa();

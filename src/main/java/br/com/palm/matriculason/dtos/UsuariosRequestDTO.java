@@ -8,7 +8,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class UsuariosDTO implements Serializable {
+public class UsuariosRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,8 +19,4 @@ public class UsuariosDTO implements Serializable {
     @NotBlank(message = "A senha é obrigatória")
     @Size(min = 8, max = 12, message = "A senha deve ter entre 8 e 12 caracteres")
     private String senha;
-
-    @NotBlank(message = "A senha é obrigatória")
-    @Size(min = 8, max = 12, message = "A senha deve ter entre 8 e 12 caracteres")
-    private String confirmarSenha;
 }

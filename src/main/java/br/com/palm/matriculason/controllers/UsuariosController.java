@@ -22,9 +22,9 @@ public class UsuariosController {
 
     @CrossOrigin
     @GetMapping
-    public ResponseEntity<Page<UsuariosRequestDTO>> pesquisar(UsuariosFilter filtro,
+    public ResponseEntity<Page<UsuarioResponseDTO>> pesquisar(UsuariosFilter filtro,
                                                               @RequestParam(value = "page", required = false, defaultValue = "0") Optional<Integer> pagina) {
-        Page<UsuariosRequestDTO> usuarios = usuariosService.buscar(filtro, PageRequest.of(pagina.orElse(0) < 1 ? 0 : pagina.get(), 10));
+        Page<UsuarioResponseDTO> usuarios = usuariosService.buscar(filtro, PageRequest.of(pagina.orElse(0) < 1 ? 0 : pagina.get(), 10));
         return ResponseEntity.ok(usuarios);
     }
 
@@ -46,10 +46,11 @@ public class UsuariosController {
     
     @CrossOrigin
     @PutMapping("/{id}")
-    public ResponseEntity<UsuariosRequestDTO> atualizar(@PathVariable("id") Long id, @Valid @RequestBody UsuariosRequestDTO usuariosDTO) {
+    public ResponseEntity<UsuarioResponseDTO> atualizar(@PathVariable("id") Long id, @Valid @RequestBody UsuariosRequestDTO usuariosDTO) {
         usuariosDTO.setId(id);
         UsuariosRequestDTO usuariosSalvo = usuariosService.salvarAtualizacao(usuariosDTO);
-        return ResponseEntity.ok(usuariosSalvo);
+        UsuarioResponseDTO usuarioResponseDTO = usuariosService.responseUserDTO(usuariosSalvo);
+        return ResponseEntity.ok(usuarioResponseDTO);
     }
 
     @CrossOrigin

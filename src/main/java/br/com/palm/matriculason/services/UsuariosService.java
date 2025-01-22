@@ -101,17 +101,6 @@ public class UsuariosService {
         return modelMapper.map(usuariosRepository.save(usuario), UsuariosRequestDTO.class);
     }
 
-    public UsuarioResponseDTO responseUserDTO(UsuariosRequestDTO usuariosRequestDTO){
-        UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO();
-        usuarioResponseDTO.setId(usuariosRequestDTO.getId());
-        usuarioResponseDTO.setUsername(usuariosRequestDTO.getPessoa().getCpf());
-        usuarioResponseDTO.setPessoa(usuariosRequestDTO.getPessoa());
-        usuarioResponseDTO.setStatus(true);
-        usuarioResponseDTO.setUsername(usuariosRequestDTO.getPessoa().getCpf());
-
-        return usuarioResponseDTO;
-    }
-
     public UsuariosRequestDTO cadastrarAdministrador(UsuariosRequestDTO usuarioDto) {
         Usuarios usuario = modelMapper.map(usuarioDto, Usuarios.class);
         String CPF = usuarioDto.getPessoa().getCpf().replaceAll("[^0-9]", "");
@@ -122,6 +111,17 @@ public class UsuariosService {
         usuariosRepository.save(usuario);
 
         return modelMapper.map(  usuariosRepository.save(usuario), UsuariosRequestDTO.class);
+    }
+
+    public UsuarioResponseDTO responseUserDTO(UsuariosRequestDTO usuariosRequestDTO){
+        UsuarioResponseDTO usuarioResponseDTO = new UsuarioResponseDTO();
+        usuarioResponseDTO.setId(usuariosRequestDTO.getId());
+        usuarioResponseDTO.setUsername(usuariosRequestDTO.getPessoa().getCpf());
+        usuarioResponseDTO.setPessoa(usuariosRequestDTO.getPessoa());
+        usuarioResponseDTO.setStatus(true);
+        usuarioResponseDTO.setUsername(usuariosRequestDTO.getPessoa().getCpf());
+
+        return usuarioResponseDTO;
     }
 
     public void remover(Long id) {
@@ -140,8 +140,8 @@ public class UsuariosService {
                 ));
     }
 
-    public Page<UsuariosRequestDTO> buscar(UsuariosFilter usuariosFilter, Pageable pageable) {
+    public Page<UsuarioResponseDTO> buscar(UsuariosFilter usuariosFilter, Pageable pageable) {
         return usuariosRepository.findAll(UsuariosSpecification.filtrar(usuariosFilter), pageable)
-                .map(u -> modelMapper.map(u, UsuariosRequestDTO.class));
+                .map(u -> modelMapper.map(u, UsuarioResponseDTO.class));
     }
 }

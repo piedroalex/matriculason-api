@@ -16,7 +16,6 @@ public class UsuariosRequestDTO implements Serializable {
 
     private Pessoas pessoa;
 
-    @NotBlank(message = "A senha é obrigatória")
     @Size(min = 8, max = 12, message = "A senha deve ter entre 8 e 12 caracteres")
     private String senha;
 }

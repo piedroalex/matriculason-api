@@ -96,6 +96,10 @@ public class UsuariosService {
         Alunos alunos = (Alunos) usuarioDto.getPessoa();
         Cursos cursos = cursosRepository.findAllById(alunos.getCurso().getId());
 
+        if(usuario.getSenha() == null || usuario.getSenha().isEmpty()){
+            throw new RuntimeException("A senha é obrigatória.");
+        }
+
         String CPF = usuarioDto.getPessoa().getCpf().replaceAll("[^0-9]", "");
         alunos.setCpf(CPF);
         alunos.setCurso(cursos);
@@ -110,6 +114,12 @@ public class UsuariosService {
         Usuarios usuario = modelMapper.map(usuarioDto, Usuarios.class);
         String CPF = usuarioDto.getPessoa().getCpf().replaceAll("[^0-9]", "");
 
+
+        if(usuario.getSenha().isEmpty()){
+            throw new RuntimeException("A senha é obrigatória.");
+        }
+
+        usuario.getPessoa().setCpf(CPF);
         usuario.setUsername(CPF);
         usuario.setStatus(true);
 

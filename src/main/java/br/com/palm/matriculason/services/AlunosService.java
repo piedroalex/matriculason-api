@@ -5,7 +5,6 @@ import java.util.Locale;
 import br.com.palm.matriculason.dtos.UsuarioResponseDTO;
 import br.com.palm.matriculason.filters.UsuariosFilter;
 import br.com.palm.matriculason.services.specifications.AlunosSpecification;
-import br.com.palm.matriculason.services.specifications.UsuariosSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

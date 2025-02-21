@@ -13,9 +13,9 @@ public class Administradores extends Pessoas implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	@NotBlank(message = "O cargo é obrigatório") @Column(length = 100, unique = true)
+	@NotBlank(message = "O cargo é obrigatório") @Column(length = 100)
     private String cargo;
 
-    @NotBlank(message = "O departamento é obrigatório") @Column(length = 100, unique = true)
+    @NotBlank(message = "O departamento é obrigatório") @Column(length = 100)
     private String departamento;
 }

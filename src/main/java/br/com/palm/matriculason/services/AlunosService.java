@@ -2,6 +2,9 @@ package br.com.palm.matriculason.services;
 
 import java.util.Locale;
 
+import br.com.palm.matriculason.dtos.UsuarioResponseDTO;
+import br.com.palm.matriculason.filters.UsuariosFilter;
+import br.com.palm.matriculason.services.specifications.AlunosSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -49,7 +52,10 @@ public class AlunosService {
                         .getMessage("modelo.naoEncontrado", new String[] {"Alunos", id.toString()}, Locale.getDefault())));
     }
 
-    public Page<AlunosDTO> buscar(AlunosFilter filter, Pageable pageable) {
-        return this.alunosRepository.findByNomeContainingOrderByNome(filter.getNome(), pageable).map(aluno -> modelMapper.map(aluno, AlunosDTO.class));
+    public Page<AlunosDTO> buscar(AlunosFilter alunosFilter, Pageable pageable) {
+        String CPF = alunosFilter.getCpf().replaceAll("[^0-9]", "");
+        alunosFilter.setCpf(CPF);
+        return alunosRepository.findAll(AlunosSpecification.filtrar(alunosFilter),pageable)
+                .map(u -> modelMapper.map(u, AlunosDTO .class));
     }
 }
